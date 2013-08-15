@@ -30,21 +30,9 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     ghoul: {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      default_options: {},
       custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+        urls: []
       },
     },
 
