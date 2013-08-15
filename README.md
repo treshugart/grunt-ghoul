@@ -1,21 +1,23 @@
 # grunt-ghoul
 
-> Ghoul integrates with existing in-browser test runners provided by the popular frameworks such as QUnit and Mocha, and works with asynchronous codebases out of the box.
+Ghoul integrates with existing in-browser test runners provided by the popular frameworks such as QUnit and Mocha, works asynchronously out of the box and stays out of your way.
 
 ## Getting Started
 
 This plugin requires:
 - Grunt `~0.4.1`
 - PhantomJS
+- Some server like Connect running so that PhantomJS can load the runners.
 
 Supported runners:
 - Mocha 1.12+
 
 ### Overview
 
-In your project's Gruntfile, add a section named `ghoul` to the data object passed into `grunt.initConfig()`.
+Load the grunt task and then configure it.
 
 ```js
+grunt.loadNpmTasks('grunt-ghoul');
 grunt.initConfig({
   ghoul: {
     tests: {
@@ -55,9 +57,7 @@ how asyncronous front-end testing can work with Ghoul.
 ```html
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Mocha Tests</title>
-    <link rel="stylesheet" href="../../bower_components/mocha/mocha.css">
+    <link rel="stylesheet" href="mocha.css">
     <script data-main="some/setup" src="require.js"></script>
   </head>
   <body>
@@ -97,4 +97,4 @@ how asyncronous front-end testing can work with Ghoul.
 ## Release History
 
 - 0.1.0
--- Initial release.
+  - Initial release.
