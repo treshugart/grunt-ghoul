@@ -52,7 +52,7 @@ grunt.initConfig({
 ### Sample Test Runner
 
 The following is a sample test runner for Mocha. RequireJS is used to exemplify
-how asyncronous front-end testing can work with Ghoul.
+how asynchronous front-end testing can work with Ghoul.
 
 ```html
 <html>
