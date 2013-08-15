@@ -1,6 +1,6 @@
 {
   "name": "grunt-ghoul",
-  "description": "The best Grunt plugin ever.",
+  "description": "An abstract test runner that runs and reports on front-end test suites.",
   "version": "0.1.0",
   "homepage": "https://github.com/treshugart/grunt-ghoul",
   "author": {
