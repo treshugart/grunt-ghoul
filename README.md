@@ -1,27 +1,18 @@
 # grunt-ghoul
 
-> An abstract test runner that runs and reports on front-end test suites.
+> Ghoul integrates with existing in-browser test runners provided by the popular frameworks such as QUnit and Mocha, and works with asynchronous codebases out of the box.
 
 ## Getting Started
+
 This plugin requires:
 - Grunt `~0.4.1`
 - PhantomJS
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
-
-```shell
-npm install grunt-ghoul --save-dev
-```
-
-Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
-
-```js
-grunt.loadNpmTasks('grunt-ghoul');
-```
-
-## The "ghoul" task
+Supported runners:
+- Mocha 1.12+
 
 ### Overview
+
 In your project's Gruntfile, add a section named `ghoul` to the data object passed into `grunt.initConfig()`.
 
 ```js
@@ -36,17 +27,17 @@ grunt.initConfig({
       // is the html returned from the `ghoul.done`
       // event.
       runner: 'mocha',
-      
+
       // Each URL is processed and reported on separately.
-      // These runners must run the tests using your 
+      // These runners must run the tests using your
       // framework of choice and then call:
-      // 
+      //
       //     console.log('ghoul.done', document.getElementById('results').innerHTML);
       urls: [
         'http://localhost:8000/path/to/runner1.html',
         'http://localhost:8000/path/to/runner2.html'
       ],
-      
+
       // You can also pass in PhantomJS options. These
       // options are passed as the `options` parameter
       // when calling `phantomjs.spawn()`.
@@ -56,8 +47,54 @@ grunt.initConfig({
 })
 ```
 
+### Sample Test Runner
+
+The following is a sample test runner for Mocha. RequireJS is used to exemplify
+how asyncronous front-end testing can work with Ghoul.
+
+```html
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link rel="stylesheet" href="../../bower_components/mocha/mocha.css">
+    <script data-main="some/setup" src="require.js"></script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script>
+      // Yep, handles async like a charm!
+      require(['mocha'], function(mocha) {
+        mocha.setup('bdd');
+
+        // Since we are telling Ghoul when we are done, we can do as much
+        // async stuff as we want.
+        require([
+          'some/dependency1',
+          'some/dependency2'
+        ], function() {
+          mocha.checkLeaks();
+          mocha.run(function() {
+            // Notify Ghoul that the tests are done and give it the
+            // resulting HTML.
+            console.log('ghoul.done', document.getElementById('mocha').innerHTML);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+```
+
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+
+1. Fork.
+2. Write tests.
+3. Code.
+4. Document.
+5. Pull request.
 
 ## Release History
-_(Nothing yet)_
+
+- 0.1.0
+-- Initial release.
