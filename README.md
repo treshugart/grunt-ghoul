@@ -1,6 +1,6 @@
 # grunt-ghoul
 
-Ghoul integrates with existing in-browser test runners provided by the popular frameworks such as QUnit and Mocha, works asynchronously out of the box and stays out of your way.
+Ghoul integrates with existing in-browser test runners provided by popular frameworks such as QUnit and Mocha, works asynchronously out of the box and stays out of your way.
 
 ## Getting Started
 
