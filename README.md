@@ -14,7 +14,11 @@ Supported runners:
 
 ### Overview
 
-Load the grunt task and then configure it.
+Ghoul acts as a bridge between your standard HTML test runner and Grunt. It takes the resulting HTML, parses it and reports on the results. Since you emit events back to Ghoul from the HTML runner, it natively supports asynchronous behavior.
+
+There is a major difference between how the `grunt-lib-phantomjs` receives messages and how Ghoul sends them is that Ghoul sends them via the console rather than using `alert()`. This is so you don't get any annoying alerts if you want to run your tests in the browser, eliminates the need for having PhantomJS checks around them and facilitates simpler debugging if and when you want to see what was sent back to Ghoul.
+
+The following shows how to load Ghoul and configure it.
 
 ```js
 grunt.loadNpmTasks('grunt-ghoul');
@@ -51,8 +55,7 @@ grunt.initConfig({
 
 ### Sample Test Runner
 
-The following is a sample test runner for Mocha. RequireJS is used to exemplify
-how asynchronous front-end testing can work with Ghoul.
+The following is a sample test runner for Mocha. RequireJS is used to exemplify how asynchronous front-end testing can work with Ghoul.
 
 ```html
 <html>
@@ -63,21 +66,32 @@ how asynchronous front-end testing can work with Ghoul.
   <body>
     <div id="mocha"></div>
     <script>
+      require.config({
+        chai: 'path/to/chai',
+        ghoul: 'node_modules/ghoul/lib/ghoul',
+        mocha: 'path/to/mocha'
+      });
+
       // Yep, handles async like a charm!
-      require(['mocha'], function(mocha) {
+      require(['chai', 'ghoul', 'mocha'], function(mocha) {
         mocha.setup('bdd');
 
         // Since we are telling Ghoul when we are done, we can do as much
         // async stuff as we want.
         require([
-          'some/dependency1',
-          'some/dependency2'
+          'some/test1',
+          'some/test2'
         ], function() {
           mocha.checkLeaks();
           mocha.run(function() {
-            // Notify Ghoul that the tests are done and give it the
-            // resulting HTML.
-            console.log('ghoul.done', document.getElementById('mocha').innerHTML);
+            // By including the ghoul helper library provided in the NPM
+            // module, we can cleanly emit events back to the console
+            // runner from this HTML runner.
+            //
+            // The "done" event tells the console runner that the tests
+            // have completed and passes it the resulting HTML to parse
+            // and report on.
+            ghoul.emit('done', document.getElementById('mocha').innerHTML);
           });
         });
       });
