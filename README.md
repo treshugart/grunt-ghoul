@@ -16,7 +16,7 @@ Supported runners:
 
 Ghoul acts as a bridge between your standard HTML test runner and Grunt. It takes the resulting HTML, parses it and reports on the results. Since you emit events back to Ghoul from the HTML runner, it natively supports asynchronous behavior.
 
-There is a major difference between how the `grunt-lib-phantomjs` receives messages and how Ghoul sends them is that Ghoul sends them via the console rather than using `alert()`. This is so you don't get any annoying alerts if you want to run your tests in the browser, eliminates the need for having PhantomJS checks around them and facilitates simpler debugging if and when you want to see what was sent back to Ghoul.
+The major difference between how the `grunt-lib-phantomjs` receives messages and how Ghoul sends them is that Ghoul sends them via the console rather than using `alert()`. This is so you don't get any annoying alerts if you want to run your tests in the browser, eliminates the need for having PhantomJS checks around them and facilitates simpler debugging if and when you want to see what was sent back to Ghoul.
 
 The following shows how to load Ghoul and configure it.
 
