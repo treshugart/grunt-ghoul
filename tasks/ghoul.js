@@ -26,7 +26,7 @@ var runners = {
 
       grunt.log.writeln('  ' + $suite.find('h1').contents().eq(0).text());
 
-      $html.find('.test').each(function(b, test) {
+      $suite.find('.test').each(function(b, test) {
         var $test = $(test);
 
         grunt.log.write('    ');
