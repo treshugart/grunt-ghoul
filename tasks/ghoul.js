@@ -13,8 +13,8 @@ var runners = {
     var $ = require('jquery')
       , $html = $(html)
       , duration = $html.find('.duration em').text()
-      , passes = +$html.find('.passes em').text()
-      , failures = +$html.find('.failures em').text();
+      , passes = $html.find('.test.pass').length
+      , failures = $html.find('.test.fail').length;
 
     grunt.verbose.writeln('  Duration: ' + duration + 's');
     grunt.log.writeln('  Passes: ' + passes);
