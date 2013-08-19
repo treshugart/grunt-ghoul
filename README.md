@@ -5,6 +5,7 @@ Ghoul integrates with existing in-browser test runners provided by popular frame
 ## Getting Started
 
 This plugin requires:
+- Node `0.10`
 - Grunt `~0.4.1`
 - PhantomJS
 - Some server like Connect running so that PhantomJS can load the runners.
