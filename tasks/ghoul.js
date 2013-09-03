@@ -14,6 +14,9 @@ var runners = {
       , cheerio = require('cheerio')
       , _ = require('underscore')
       , $ = cheerio.load(html)
+      , isWin = /^win/.test(require('os').platform())
+      , successSymbol = (isWin ? '+' : '✓').green
+      , failureSymbol = (isWin ? '-' : '✗').red
       , duration = $('.duration em').text()
       , passes = $('.test.pass').length
       , failures = $('.test.fail').length;
@@ -44,11 +47,11 @@ var runners = {
         if ($test.is('.pass')) {
           testDuration = $test.find('.duration').text();
 
-          grunt.log.write('✓'.green);
+          grunt.log.write(successSymbol);
           grunt.log.write(' ' + $test.find('h2').contents().first().text());
           grunt.log.write(' ' + ($test.is('.slow') ? testDuration.red : $test.is('.medium') ? testDuration.yellow : testDuration));
         } else {
-          grunt.log.write('✗'.red);
+          grunt.log.write(failureSymbol);
           grunt.log.write(' ' + $test.find('h2').contents().first().text().red);
           grunt.log.writeln();
 
