@@ -54,14 +54,11 @@ var runners = {
           grunt.log.write(failureSymbol);
           grunt.log.write(' ' + $test.find('h2').contents().first().text().red);
           grunt.log.writeln();
+          grunt.log.writeln('      ' + $test.find('.error').first().text().split('\n')[0].red);
 
-          $test.find('.error').each(function(c, error) {
-            var $error = $(error)
-              , lines = $error.text().split("\n");
-
-            lines.forEach(function(line, d) {
-              var spacing = d ? '        ' : '      ';
-              grunt.log.writeln(spacing + line.trim().red);
+          $test.find('code').each(function(c, code) {
+            $(code).text().split('\n').forEach(function(line) {
+              grunt.log.writeln('        ' + line.trim().red);
             });
           });
         }
