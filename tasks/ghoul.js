@@ -10,21 +10,30 @@
 
 var runners = {
   mocha: function(grunt, html) {
-    var $ = require('jquery')
-      , $html = $(html)
-      , duration = $html.find('.duration em').text()
-      , passes = $html.find('.test.pass').length
-      , failures = $html.find('.test.fail').length;
+    var cheerio = require('cheerio')
+      , _ = require('underscore')
+      , $ = cheerio.load(html)
+      , duration = $('.duration em').text()
+      , passes = $('.test.pass').length
+      , failures = $('.test.fail').length;
 
-    grunt.verbose.writeln('  Duration: ' + duration + 's');
+    // add missing "contents" method (see: https://github.com/MatthewMueller/cheerio/pull/234)
+    cheerio.prototype.contents = function() {
+      return this.make(_.reduce(this, function(all, elem) {
+        all.push.apply(all, elem.children);
+        return all;
+      }, []));
+    };
+
+    grunt.log.writeln('  Duration: ' + duration + 's');
     grunt.log.writeln('  Passes: ' + passes);
     grunt.log.writeln('  Failures: ' + failures);
     grunt.log.writeln();
 
-    $html.find('.suite').each(function(a, suite) {
+    $('.suite').each(function(a, suite) {
       var $suite = $(suite);
 
-      grunt.log.writeln('  ' + $suite.find('h1').contents().eq(0).text());
+      grunt.log.writeln('  ' + $suite.find('h1').contents().first().text());
 
       $suite.find('.test').each(function(b, test) {
         var $test = $(test);
@@ -33,20 +42,20 @@ var runners = {
 
         if ($test.is('.pass')) {
           grunt.log.write('✓');
-          grunt.log.write(' ' + $test.find('h2').contents().eq(0).text());
+          grunt.log.write(' ' + $test.find('h2').contents().first().text());
           grunt.log.write(' ' + $test.find('.duration').text());
         } else {
           grunt.log.write('✗');
-          grunt.log.write(' ' + $test.find('h2').contents().eq(0).text());
+          grunt.log.write(' ' + $test.find('h2').contents().first().text());
           grunt.log.writeln();
 
           $test.find('.error').each(function(c, error) {
             var $error = $(error)
               , lines = $error.text().split("\n");
 
-            $.each(lines, function(d, line) {
+            lines.forEach(function(line, d) {
               var spacing = d ? '        ' : '      ';
-              grunt.log.writeln(spacing + line.replace(/^\s+/, '').replace(/\s+$/, ''));
+              grunt.log.writeln(spacing + line.trim());
             });
           });
         }
@@ -74,6 +83,7 @@ module.exports = function(grunt) {
     // PhantomJS running the tests.
     phantom.on('console', function(msg) {
       if (msg.indexOf('ghoul.') === 0) {
+        /*jshint shadow:true */
         var args = msg.match(/(ghoul\.[^\s]+)\s*([\s\S]*)/i)
           , name = args[1]
           , args = args[2];
