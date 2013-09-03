@@ -74,6 +74,7 @@ module.exports = function(grunt) {
     // PhantomJS running the tests.
     phantom.on('console', function(msg) {
       if (msg.indexOf('ghoul.') === 0) {
+        /*jshint shadow:true */
         var args = msg.match(/(ghoul\.[^\s]+)\s*([\s\S]*)/i)
           , name = args[1]
           , args = args[2];
