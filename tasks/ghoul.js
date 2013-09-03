@@ -10,9 +10,13 @@
 
 var runners = {
   mocha: function(grunt, html) {
-    var cheerio = require('cheerio')
+    var color = require('colors')
+      , cheerio = require('cheerio')
       , _ = require('underscore')
       , $ = cheerio.load(html)
+      , isWin = /^win/.test(require('os').platform())
+      , successSymbol = (isWin ? '+' : '✓').green
+      , failureSymbol = (isWin ? '-' : '✗').red
       , duration = $('.duration em').text()
       , passes = $('.test.pass').length
       , failures = $('.test.fail').length;
@@ -33,29 +37,28 @@ var runners = {
     $('.suite').each(function(a, suite) {
       var $suite = $(suite);
 
-      grunt.log.writeln('  ' + $suite.find('h1').contents().first().text());
+      grunt.log.writeln('  ' + $suite.find('h1').contents().first().text().bold);
 
       $suite.find('.test').each(function(b, test) {
-        var $test = $(test);
+        var testDuration, $test = $(test);
 
         grunt.log.write('    ');
 
         if ($test.is('.pass')) {
-          grunt.log.write('✓');
+          testDuration = $test.find('.duration').text();
+
+          grunt.log.write(successSymbol);
           grunt.log.write(' ' + $test.find('h2').contents().first().text());
-          grunt.log.write(' ' + $test.find('.duration').text());
+          grunt.log.write(' ' + ($test.is('.slow') ? testDuration.red : $test.is('.medium') ? testDuration.yellow : testDuration));
         } else {
-          grunt.log.write('✗');
-          grunt.log.write(' ' + $test.find('h2').contents().first().text());
+          grunt.log.write(failureSymbol);
+          grunt.log.write(' ' + $test.find('h2').contents().first().text().red);
           grunt.log.writeln();
+          grunt.log.writeln('      ' + $test.find('.error').first().text().split('\n')[0].red);
 
-          $test.find('.error').each(function(c, error) {
-            var $error = $(error)
-              , lines = $error.text().split("\n");
-
-            lines.forEach(function(line, d) {
-              var spacing = d ? '        ' : '      ';
-              grunt.log.writeln(spacing + line.trim());
+          $test.find('code').each(function(c, code) {
+            $(code).text().split('\n').forEach(function(line) {
+              grunt.log.writeln('        ' + line.trim().red);
             });
           });
         }
