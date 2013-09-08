@@ -1,7 +1,7 @@
 {
   "name": "grunt-ghoul",
   "description": "An abstract test runner that runs and reports on front-end test suites.",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "homepage": "https://github.com/treshugart/grunt-ghoul",
   "author": {
     "name": "Trey Shugart",
