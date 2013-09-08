@@ -53,7 +53,7 @@ grunt.initConfig({
       phantom: {}
     }
   },
-})
+});
 ```
 
 ### Sample Test Runner
@@ -61,6 +61,7 @@ grunt.initConfig({
 The following is a sample test runner for Mocha. RequireJS is used to exemplify how asynchronous front-end testing can work with Ghoul.
 
 ```html
+<!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="mocha.css">
