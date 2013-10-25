@@ -61,7 +61,7 @@ grunt.initConfig({
 The following is a sample test runner for Mocha. RequireJS is used to exemplify how asynchronous front-end testing can work with Ghoul.
 
 ```html
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <link rel="stylesheet" href="mocha.css">
@@ -98,6 +98,33 @@ The following is a sample test runner for Mocha. RequireJS is used to exemplify 
             ghoul.emit('done', document.getElementById('mocha').innerHTML);
           });
         });
+      });
+    </script>
+  </body>
+</html>
+```
+
+If you aren't using RequireJS, all you may need is simply:
+
+```html
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/grunt-ghoul/lib/ghoul.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script>
+      mocha.setup('bdd');
+    </script>
+    <script src="tests.js"></script>
+    <script>
+      mocha.checkLeaks();
+      mocha.run(function() {
+        ghoul.emit('done', document.getElementById('mocha').innerHTML);
       });
     </script>
   </body>
