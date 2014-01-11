@@ -1,10 +1,12 @@
-# grunt-ghoul
+grunt-ghoul
+===========
 
 [![Build Status](https://travis-ci.org/treshugart/grunt-ghoul.png)](https://travis-ci.org/treshugart/grunt-ghoul)
 
 Ghoul integrates with existing in-browser test runners provided by popular frameworks such as QUnit and Mocha, works asynchronously out of the box and stays out of your way.
 
-## Getting Started
+Getting Started
+---------------
 
 This plugin requires:
 - Node `0.10`
