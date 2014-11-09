@@ -43,6 +43,10 @@
     "grunt": "~0.4.1"
   },
   "keywords": [
-    "gruntplugin test runner browser async"
+    "gruntplugin",
+    "test",
+    "runner",
+    "browser",
+    "async"
   ]
 }
